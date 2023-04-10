@@ -1,0 +1,17 @@
+﻿version: 0.2
+phases:
+  install:
+    runtime-versions:
+      dotnet: 6.0
+  pre_build:
+    commands:
+      - dotnet restore intex-2023-api/intex-2023-api.csproj
+  build:
+    commands:
+      - dotnet build intex-2023-api/intex-2023-api.csproj
+  post_build:
+    commands:
+      - dotnet publish -c Release -o ./app/ intex-2023-api/intex-2023-api.csproj
+artifacts:
+  files:
+    - '**/*'

@@ -27,7 +27,7 @@ namespace intex_2023_api.Controllers
         public async Task<ActionResult> Get()
         {
 
-            var data = await Db.Burialmains.ToListAsync();
+            var data = await Db.Burialmains.Take(10).ToListAsync();
 
             var context = new
             {
