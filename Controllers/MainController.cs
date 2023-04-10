@@ -24,14 +24,27 @@ namespace intex_2023_api.Controllers
 
         // GET: api/values
         [HttpGet]
-        public async Task<ActionResult> Get()
+        public async Task<ActionResult> Get(int page=1, int pageSize=15, string sex = "", string burialDepth = "", string age = "", string headDirection = "", string burialId = "", string hairColor = "")
         {
 
-            var data = await Db.Burialmains.Take(10).ToListAsync();
+            var results = await Db.Burialmains
+                .Where(x => x.Sex.Contains(sex)
+                && x.Depth.Contains(burialDepth)
+                && x.Ageatdeath.Contains(age)
+                && x.Headdirection.Contains(headDirection)
+                && x.Haircolor.Contains(hairColor))
+                .ToListAsync();
+
+            var data = results.Select(x => new { x.Burialnumber, x.Area, x.Id }).Skip((page - 1) * pageSize).Take(pageSize);
 
             var context = new
             {
-
+                reults = results.Count(),
+                page = page,
+                pageSize = pageSize,
+                nextPage = results.Count() > pageSize ? (page + 1).ToString() : "NaN",
+                previousPage = page > 1 ? (page - 1).ToString() : "NaN",
+                totalPages = results.Count() / pageSize,
                 results = data
             };
 
