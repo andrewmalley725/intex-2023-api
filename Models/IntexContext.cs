@@ -25,6 +25,7 @@ namespace intex_2023_api.Models
         public virtual DbSet<Biological> Biologicals { get; set; } = null!;
         public virtual DbSet<BiologicalC14> BiologicalC14s { get; set; } = null!;
         public virtual DbSet<Bodyanalysischart> Bodyanalysischarts { get; set; } = null!;
+        public virtual DbSet<Bodyanalysischartnew> Bodyanalysischartnews { get; set; } = null!;
         public virtual DbSet<Book> Books { get; set; } = null!;
         public virtual DbSet<Burialmain> Burialmains { get; set; } = null!;
         public virtual DbSet<BurialmainBiological> BurialmainBiologicals { get; set; } = null!;
@@ -57,7 +58,7 @@ namespace intex_2023_api.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseNpgsql("Server=database-intex.cedbw3gdvhe4.us-east-1.rds.amazonaws.com;Database=intex;User ID=postgres;Password=admin123;Port=5432");
+                optionsBuilder.UseNpgsql("Server=intex-buffalo.cedbw3gdvhe4.us-east-1.rds.amazonaws.com;Database=intex_buffalo;User ID=postgres;Password=admin123;");
             }
         }
 
@@ -360,6 +361,29 @@ namespace intex_2023_api.Models
                 entity.Property(e => e.Tootheruptionageestimation).HasColumnName("tootheruptionageestimation");
 
                 entity.Property(e => e.Ventralarc).HasColumnName("ventralarc");
+            });
+
+            modelBuilder.Entity<Bodyanalysischartnew>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("bodyanalysischartnew");
+
+                entity.HasIndex(e => e.Index, "ix_bodyanalysischartnew_index");
+
+                entity.Property(e => e.BurialMainId).HasColumnName("BurialMainID");
+
+                entity.Property(e => e.CariesPeriodontalDisease).HasColumnName("Caries_Periodontal_Disease");
+
+                entity.Property(e => e.DorsalPittingBoolean).HasColumnName("DorsalPitting (boolean)");
+
+                entity.Property(e => e.Index).HasColumnName("index");
+
+                entity.Property(e => e.MedialIpRamus).HasColumnName("Medial_IP_Ramus");
+
+                entity.Property(e => e.PreauricularSulcusBoolean).HasColumnName("PreauricularSulcus (Boolean)");
+
+                entity.Property(e => e.Unnamed40).HasColumnName("Unnamed: 40");
             });
 
             modelBuilder.Entity<Book>(entity =>

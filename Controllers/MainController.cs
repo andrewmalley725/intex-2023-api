@@ -24,7 +24,7 @@ namespace intex_2023_api.Controllers
 
         // GET: api/values
         [HttpGet]
-        public async Task<ActionResult> Get(int page=1, int pageSize=15, string sex = "", string burialDepth = "", string age = "", string headDirection = "", string burialId = "", string hairColor = "")
+        public async Task<ActionResult> Get(int page = 1, int pageSize = 15, string sex = "", string burialDepth = "", string age = "", string headDirection = "", string burialId = "", string hairColor = "")
         {
 
             var results = await Db.Burialmains
