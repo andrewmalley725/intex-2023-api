@@ -26,7 +26,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.UseCors(p => p.WithOrigins("http://localhost:3000"));
+app.UseCors(p => p.AllowAnyOrigin());
 
 app.MapControllers();
 

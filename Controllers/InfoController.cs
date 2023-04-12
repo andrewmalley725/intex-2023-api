@@ -32,7 +32,7 @@ namespace intex_2023_api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(Int64 id)
         {
-            var grave = await Db.Burialmains.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var grave = await Db.Burialmains.SingleOrDefaultAsync(x => x.Id == id);
 
             var context = new
             {
