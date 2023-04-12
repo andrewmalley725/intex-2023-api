@@ -32,21 +32,19 @@ namespace intex_2023_api.Controllers
                 && (string.IsNullOrEmpty(wrapping) || x.Wrapping.Contains(wrapping))
                 && (string.IsNullOrEmpty(sex) || x.Sex.Contains(sex))
                 && (string.IsNullOrEmpty(hairColor) || x.Haircolor.Contains(hairColor))
-                && (string.IsNullOrEmpty(area) || x.Area.Contains(area)))
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+                && (string.IsNullOrEmpty(area) || x.Area.Contains(area))).ToListAsync();
 
+            var dataFin = data.Skip((page - 1) * pageSize).Take(pageSize);
 
             var context = new
             {
-                reults = results,
+                count = data.Count(),
                 page = page,
                 pageSize = pageSize,
-                nextPage = results > pageSize ? (page + 1).ToString() : "NaN",
+                nextPage = data.Count() > pageSize ? (page + 1).ToString() : "NaN",
                 previousPage = page > 1 ? (page - 1).ToString() : "NaN",
-                totalPages = (int)Math.Ceiling((double)results / pageSize),
-                results = data
+                totalPages = (int)Math.Ceiling((double)data.Count() / pageSize),
+                results = dataFin
             };
 
 
