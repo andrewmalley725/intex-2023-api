@@ -1,5 +1,6 @@
 ﻿using intex_2023_api.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.ML.OnnxRuntime;
 
 var builder = WebApplication.CreateBuilder(args);
 
