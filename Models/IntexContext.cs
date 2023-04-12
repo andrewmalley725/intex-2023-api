@@ -40,6 +40,7 @@ namespace intex_2023_api.Models
         public virtual DbSet<DecorationTextile> DecorationTextiles { get; set; } = null!;
         public virtual DbSet<Dimension> Dimensions { get; set; } = null!;
         public virtual DbSet<DimensionTextile> DimensionTextiles { get; set; } = null!;
+        public virtual DbSet<Essential> Essentials { get; set; } = null!;
         public virtual DbSet<Newsarticle> Newsarticles { get; set; } = null!;
         public virtual DbSet<PhotodataTextile> PhotodataTextiles { get; set; } = null!;
         public virtual DbSet<Photodatum> Photodata { get; set; } = null!;
@@ -58,7 +59,7 @@ namespace intex_2023_api.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseNpgsql("Server=intex-buffalo.cedbw3gdvhe4.us-east-1.rds.amazonaws.com;Database=intex_buffalo;User ID=postgres;Password=admin123;");
+                optionsBuilder.UseNpgsql("Server=intex-buffalo.cedbw3gdvhe4.us-east-1.rds.amazonaws.com;Database=intex_buffalo;User ID=postgres;Password=admin123;Port=5432;");
             }
         }
 
@@ -819,6 +820,43 @@ namespace intex_2023_api.Models
                 entity.Property(e => e.MainDimensionid).HasColumnName("main$dimensionid");
 
                 entity.Property(e => e.MainTextileid).HasColumnName("main$textileid");
+            });
+
+            modelBuilder.Entity<Essential>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("essentials");
+
+                entity.Property(e => e.Adultsubadult)
+                    .HasMaxLength(200)
+                    .HasColumnName("adultsubadult");
+
+                entity.Property(e => e.Ageatdeath)
+                    .HasMaxLength(200)
+                    .HasColumnName("ageatdeath");
+
+                entity.Property(e => e.Area)
+                    .HasMaxLength(200)
+                    .HasColumnName("area");
+
+                entity.Property(e => e.Burialnumber)
+                    .HasMaxLength(200)
+                    .HasColumnName("burialnumber");
+
+                entity.Property(e => e.Haircolor)
+                    .HasMaxLength(200)
+                    .HasColumnName("haircolor");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Sex)
+                    .HasMaxLength(200)
+                    .HasColumnName("sex");
+
+                entity.Property(e => e.Wrapping)
+                    .HasMaxLength(200)
+                    .HasColumnName("wrapping");
             });
 
             modelBuilder.Entity<Newsarticle>(entity =>
