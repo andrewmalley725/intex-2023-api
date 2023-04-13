@@ -52,6 +52,7 @@ namespace intex_2023_api.Models
         public virtual DbSet<Textile> Textiles { get; set; } = null!;
         public virtual DbSet<Textilefunction> Textilefunctions { get; set; } = null!;
         public virtual DbSet<TextilefunctionTextile> TextilefunctionTextiles { get; set; } = null!;
+        public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<Yarnmanipulation> Yarnmanipulations { get; set; } = null!;
         public virtual DbSet<YarnmanipulationTextile> YarnmanipulationTextiles { get; set; } = null!;
 
@@ -1200,6 +1201,34 @@ namespace intex_2023_api.Models
                 entity.Property(e => e.MainTextilefunctionid).HasColumnName("main$textilefunctionid");
 
                 entity.Property(e => e.MainTextileid).HasColumnName("main$textileid");
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasKey(e => e.Email)
+                    .HasName("users_pkey");
+
+                entity.ToTable("users");
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(255)
+                    .HasColumnName("email");
+
+                entity.Property(e => e.Firstname)
+                    .HasMaxLength(255)
+                    .HasColumnName("firstname");
+
+                entity.Property(e => e.Hash)
+                    .HasMaxLength(255)
+                    .HasColumnName("hash");
+
+                entity.Property(e => e.Lastname)
+                    .HasMaxLength(255)
+                    .HasColumnName("lastname");
+
+                entity.Property(e => e.Role)
+                    .HasMaxLength(255)
+                    .HasColumnName("role");
             });
 
             modelBuilder.Entity<Yarnmanipulation>(entity =>
