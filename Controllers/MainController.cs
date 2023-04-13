@@ -24,8 +24,49 @@ namespace intex_2023_api.Controllers
 
         //GET: api/values
         [HttpGet]
-        public async Task<ActionResult> Get(int page = 1, int pageSize = 30, string age = "", string wrapping = "", string sex = "", string hairColor = "", string area = "")
+        public async Task<ActionResult> Get(int page = 1, int pageSize = 30, bool burialNum=false, string age = "", string wrapping = "", string sex = "", string hairColor = "", string area = "", bool depth=false, bool length=false)
         {
+            Dictionary<string, string> haircolors = new Dictionary<string, string>()
+            {
+                {"B","Brown"},
+                {"K","Black"},
+                {"A","Brown-Red"},
+                {"R","Red"},
+                {"D","Blonde"},
+                {"U","Unknown"},
+
+            };
+
+            Dictionary<string, string> sexes = new Dictionary<string, string>()
+            {
+                {"M","Male"},
+                {"F","Female"},
+                {"U", "Unknown"}
+
+            };
+
+            Dictionary<string, string> ages = new Dictionary<string, string>()
+            {
+                {"A","Adult"},
+                {"C","Child"},
+                {"I", "Infant"},
+                {"IN", "Infant"},
+                {"N", "Newborn"},
+                {"U", "Unknown"}
+
+            };
+
+            Dictionary<string, string> wrappings = new Dictionary<string, string>()
+            {
+                {"W","Full remains"},
+                {"H","Partial remains"},
+                {"B", "Bones/Partial remains"},
+                {"U", "Unknown"},
+                {"S", "Unknown"}
+
+            };
+
+
             var results = Db.Essentials.Count();
             var data = await Db.Essentials
                 .Where(x => (string.IsNullOrEmpty(age) || x.Ageatdeath.Contains(age))
@@ -34,7 +75,43 @@ namespace intex_2023_api.Controllers
                 && (string.IsNullOrEmpty(hairColor) || x.Haircolor.Contains(hairColor))
                 && (string.IsNullOrEmpty(area) || x.Area.Contains(area))).ToListAsync();
 
+            if (burialNum)
+            {
+                data = data.OrderByDescending(x => int.TryParse(x.Burialnumber, out int result) ? result : 0).ToList();
+            }
+
+            else if (depth)
+            {
+                data = data.OrderByDescending(x => x.Depth).ToList();
+            }
+            else if (length)
+            {
+                data = data.OrderByDescending(x => x.Length).ToList();
+            }
+            
+
             var dataFin = data.Skip((page - 1) * pageSize).Take(pageSize);
+
+            foreach (Essential e in data)
+            {
+                if (e.Haircolor != null && haircolors.ContainsKey(e.Haircolor))
+                {
+                    e.Haircolor = haircolors[e.Haircolor];
+                }
+                if (e.Sex != null && sexes.ContainsKey(e.Sex))
+                {
+                    e.Sex = sexes[e.Sex];
+                }
+                if (e.Ageatdeath != null && ages.ContainsKey(e.Ageatdeath))
+                {
+                    e.Ageatdeath = ages[e.Ageatdeath];
+                }
+                if (e.Wrapping != null && wrappings.ContainsKey(e.Wrapping))
+                {
+                    e.Wrapping = wrappings[e.Wrapping];
+                }
+
+            }
 
             var context = new
             {

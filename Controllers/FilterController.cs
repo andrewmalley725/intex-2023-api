@@ -42,6 +42,7 @@ namespace intex_2023_api.Controllers
                 sex = sexes,
                 hairColors = hairColors,
                 areas = areas
+
             };
 
             return new OkObjectResult(context);

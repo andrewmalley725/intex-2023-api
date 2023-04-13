@@ -1,6 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using System;
+using System.Collections.Generic;
+using intex_2023_api.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using intex_2023_api.Data;
 using Microsoft.ML.OnnxRuntime;
 using Microsoft.ML.OnnxRuntime.Tensors;
@@ -22,10 +26,13 @@ namespace intex_2023_api.Controllers
         [HttpPost]
         public ActionResult Score(HeadDirectionData data)
         {
+
             var result = _session.Run(new List<NamedOnnxValue>
                 {
                     NamedOnnxValue.CreateFromTensor("feature_input", data.AsTensor())
                 });
+
+
             Tensor<string> score = result.First().AsTensor<string>();
             var prediction = new Prediction { PredictedValue = score.First() };
             result.Dispose();
