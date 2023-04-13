@@ -205,10 +205,7 @@ namespace intex_2023_api.Controllers
 
         }
 
-        private bool BurialmainExists(int id)
-        {
-            return Db.Burialmains.Any(e => e.Id == id);
-        }
+        
     }
 }
 

@@ -32,7 +32,7 @@ namespace intex_2023_api.Controllers
         [HttpGet("{burialNum}/{area}/{eastWest}/{sqew}/{northSouth}/{sqns}")]
         public async Task<ActionResult> Get(string burialNum, string area, string eastWest, string sqew, string northSouth, string sqns)
         {
-            var grave = await Db.MainData.SingleOrDefaultAsync(x => x.Burialnumber == burialNum
+            var grave = await Db.Essentials.SingleOrDefaultAsync(x => x.Burialnumber == burialNum
             && x.Area == area
             && x.Eastwest == eastWest
             && x.Squareeastwest == sqew
