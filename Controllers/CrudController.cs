@@ -31,10 +31,19 @@ namespace intex_2023_api.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{burialNum}/{area}/{eastWest}/{sqew}/{northSouth}/{sqns}")]
+        public async Task<ActionResult> Get(string burialNum, string area, string eastWest, string sqew, string northSouth, string sqns)
         {
-            return "value";
+
+            var record = await Db.Burialmains.FirstOrDefaultAsync(
+            x => x.Burialnumber == burialNum
+            && x.Area == area
+            && x.Eastwest == eastWest
+            && x.Squareeastwest == sqew
+            && x.Northsouth == northSouth
+            && x.Squarenorthsouth == sqns);
+
+            return new OkObjectResult(record);
         }
 
         // POST api/values
