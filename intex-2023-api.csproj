@@ -24,10 +24,13 @@
 
   <ItemGroup>
     <None Remove="Data\" />
-    <None Remove="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
+  <ItemGroup>
+  <Content Include="Data\**">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+</ItemGroup>
 </Project>
