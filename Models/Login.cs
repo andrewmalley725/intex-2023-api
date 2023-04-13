@@ -1,5 +1,5 @@
 ﻿using System;
-namespace PlaylistApp.Models
+namespace intex_2023_api.Models
 {
     public class Login
     {

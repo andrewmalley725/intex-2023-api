@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using intex_2023_api.Models; // replace with your actual namespace for the model class
 using System.Text;
-using PlaylistApp.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,6 +23,11 @@ namespace intex_2023_api.Controllers
         public AuthenticateController(IntexContext temp)
         {
             Db = temp;
+        }
+        [HttpGet]
+        public IEnumerable<User> Get()
+        {
+            return Db.Users;
         }
 
         [HttpPost]
