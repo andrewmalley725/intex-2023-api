@@ -41,6 +41,7 @@ namespace intex_2023_api.Models
         public virtual DbSet<Dimension> Dimensions { get; set; } = null!;
         public virtual DbSet<DimensionTextile> DimensionTextiles { get; set; } = null!;
         public virtual DbSet<Essential> Essentials { get; set; } = null!;
+        public virtual DbSet<MainDatum> MainData { get; set; } = null!;
         public virtual DbSet<Newsarticle> Newsarticles { get; set; } = null!;
         public virtual DbSet<PhotodataTextile> PhotodataTextiles { get; set; } = null!;
         public virtual DbSet<Photodatum> Photodata { get; set; } = null!;
@@ -58,7 +59,8 @@ namespace intex_2023_api.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseNpgsql("Server=intex-buffalo.cedbw3gdvhe4.us-east-1.rds.amazonaws.com;Database=intex_buffalo;User ID=postgres;Password=admin123;Port=5432;");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseNpgsql("Server=intex-buffalo.cedbw3gdvhe4.us-east-1.rds.amazonaws.com;Database=intex_buffalo;User ID=postgres;Password=admin123;Port=5432;Database=intex_buffalo;User ID=postgres;Password=admin123;");
             }
         }
 
@@ -827,10 +829,6 @@ namespace intex_2023_api.Models
 
                 entity.ToView("essentials");
 
-                entity.Property(e => e.Adultsubadult)
-                    .HasMaxLength(200)
-                    .HasColumnName("adultsubadult");
-
                 entity.Property(e => e.Ageatdeath)
                     .HasMaxLength(200)
                     .HasColumnName("ageatdeath");
@@ -843,15 +841,128 @@ namespace intex_2023_api.Models
                     .HasMaxLength(200)
                     .HasColumnName("burialnumber");
 
+                entity.Property(e => e.Depth)
+                    .HasMaxLength(200)
+                    .HasColumnName("depth");
+
+                entity.Property(e => e.Eastwest)
+                    .HasMaxLength(200)
+                    .HasColumnName("eastwest");
+
                 entity.Property(e => e.Haircolor)
                     .HasMaxLength(200)
                     .HasColumnName("haircolor");
 
+                entity.Property(e => e.Headdirection)
+                    .HasMaxLength(200)
+                    .HasColumnName("headdirection");
+
                 entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Length)
+                    .HasMaxLength(200)
+                    .HasColumnName("length");
+
+                entity.Property(e => e.Northsouth)
+                    .HasMaxLength(200)
+                    .HasColumnName("northsouth");
 
                 entity.Property(e => e.Sex)
                     .HasMaxLength(200)
                     .HasColumnName("sex");
+
+                entity.Property(e => e.Squareeastwest)
+                    .HasMaxLength(200)
+                    .HasColumnName("squareeastwest");
+
+                entity.Property(e => e.Squarenorthsouth)
+                    .HasMaxLength(200)
+                    .HasColumnName("squarenorthsouth");
+
+                entity.Property(e => e.Wrapping)
+                    .HasMaxLength(200)
+                    .HasColumnName("wrapping");
+            });
+
+            modelBuilder.Entity<MainDatum>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("main_data");
+
+                entity.Property(e => e.Ageatdeath)
+                    .HasMaxLength(200)
+                    .HasColumnName("ageatdeath");
+
+                entity.Property(e => e.Area)
+                    .HasMaxLength(200)
+                    .HasColumnName("area");
+
+                entity.Property(e => e.BurialDepth)
+                    .HasMaxLength(200)
+                    .HasColumnName("burial_depth");
+
+                entity.Property(e => e.BurialLength)
+                    .HasMaxLength(200)
+                    .HasColumnName("burial_length");
+
+                entity.Property(e => e.Burialnumber)
+                    .HasMaxLength(200)
+                    .HasColumnName("burialnumber");
+
+                entity.Property(e => e.Eastwest)
+                    .HasMaxLength(200)
+                    .HasColumnName("eastwest");
+
+                entity.Property(e => e.Facebundles)
+                    .HasMaxLength(200)
+                    .HasColumnName("facebundles");
+
+                entity.Property(e => e.Haircolor)
+                    .HasMaxLength(200)
+                    .HasColumnName("haircolor");
+
+                entity.Property(e => e.Headdirection)
+                    .HasMaxLength(200)
+                    .HasColumnName("headdirection");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Material)
+                    .HasMaxLength(100)
+                    .HasColumnName("material");
+
+                entity.Property(e => e.Northsouth)
+                    .HasMaxLength(200)
+                    .HasColumnName("northsouth");
+
+                entity.Property(e => e.Sex)
+                    .HasMaxLength(200)
+                    .HasColumnName("sex");
+
+                entity.Property(e => e.Squareeastwest)
+                    .HasMaxLength(200)
+                    .HasColumnName("squareeastwest");
+
+                entity.Property(e => e.Squarenorthsouth)
+                    .HasMaxLength(200)
+                    .HasColumnName("squarenorthsouth");
+
+                entity.Property(e => e.TextileColor)
+                    .HasMaxLength(500)
+                    .HasColumnName("textile_color");
+
+                entity.Property(e => e.TextileStructure)
+                    .HasMaxLength(500)
+                    .HasColumnName("textile_structure");
+
+                entity.Property(e => e.Url)
+                    .HasMaxLength(500)
+                    .HasColumnName("url");
+
+                entity.Property(e => e.Value)
+                    .HasMaxLength(200)
+                    .HasColumnName("value");
 
                 entity.Property(e => e.Wrapping)
                     .HasMaxLength(200)
