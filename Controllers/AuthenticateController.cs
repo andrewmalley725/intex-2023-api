@@ -9,14 +9,38 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using intex_2023_api.Models; // replace with your actual namespace for the model class
 using System.Text;
+using MailKit.Net.Smtp;
+using MimeKit;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace intex_2023_api.Controllers
 {
     [Route("api/[controller]")]
+
     public class AuthenticateController : Controller
     {
+        private void SendEmail(string email, string body)
+        {
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Your Name", "jon.stauffer@live.com"));
+            message.To.Add(new MailboxAddress("", email));
+            message.Subject = "verification code";
+
+            message.Body = new TextPart("plain")
+            {
+                Text = body
+            };
+
+            using (var client = new SmtpClient())
+            {
+                client.Connect("smtp.outlook.com", 587, false);
+                client.Authenticate("jon.stauffer@live.com", "number20");
+                client.Send(message);
+                client.Disconnect(true);
+            }
+        }
 
         private IntexContext Db { get; set; }
         public string pepper = "buffalo";
@@ -24,11 +48,7 @@ namespace intex_2023_api.Controllers
         {
             Db = temp;
         }
-        [HttpGet]
-        public IEnumerable<User> Get()
-        {
-            return Db.Users;
-        }
+
 
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] Login login)
@@ -53,10 +73,15 @@ namespace intex_2023_api.Controllers
                 sb.Append(b.ToString("x2"));
             }
             string hashString = sb.ToString();
+            string code = "buffalo";
+            string body = "Your code is: ";
+            
 
             if (hashString == user.Hash)
             {
-                return Ok(new { message = "Authenticated!", firstname = user.Firstname, email = user.Email, role = user.Role });
+                body = body + code;
+                SendEmail(user.Email, body);
+                return Ok(new { message = "Authenticated!", firstname = user.Firstname, email = user.Email, role = user.Role, code = code });
             }
 
             else
@@ -64,5 +89,7 @@ namespace intex_2023_api.Controllers
                 return BadRequest("Invalid Password!");
             }
         }
+
+
     }
 }
