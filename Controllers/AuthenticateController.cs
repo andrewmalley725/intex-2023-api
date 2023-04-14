@@ -11,6 +11,7 @@ using intex_2023_api.Models; // replace with your actual namespace for the model
 using System.Text;
 using MailKit.Net.Smtp;
 using MimeKit;
+using MailKit.Security;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -35,7 +36,7 @@ namespace intex_2023_api.Controllers
 
             using (var client = new SmtpClient())
             {
-                client.Connect("smtp.outlook.com", 587, false);
+                client.Connect("smtp.outlook.com", 587, SecureSocketOptions.Auto);
                 client.Authenticate("jon.stauffer@live.com", "number20");
                 client.Send(message);
                 client.Disconnect(true);
@@ -74,7 +75,7 @@ namespace intex_2023_api.Controllers
             }
             string hashString = sb.ToString();
             string code = "buffalo";
-            string body = "Your code is: ";
+            string body = "Thanks for logging into our way of the buffalo! If you have 2FA Your code is: ";
             
 
             if (hashString == user.Hash)
